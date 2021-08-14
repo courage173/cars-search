@@ -1,0 +1,72 @@
+import db from '../database/listing.json';
+import { ListingResponse } from '../types/listing';
+
+export interface SearchCriteria {
+  make?: string;
+  model?: string;
+  minYear?: number;
+  maxYear?: number;
+  minPrice?: number;
+  maxPrice?: number;
+}
+
+export default class SearchService {
+  public static search(query: SearchCriteria): Promise<ListingResponse[] | []> {
+    const data = db.cars;
+    return new Promise((resolve, reject) => {
+      const make = query.make;
+      const model = query.model;
+      const minYear = query.minYear;
+      const maxYear = query.maxYear;
+      const minPrice = query.minPrice;
+      const maxPrice = query.maxPrice;
+
+      if (maxYear && minYear && maxYear < minYear) {
+        reject('maximum year cannot be less than the minimum year');
+      }
+      if (maxPrice && minPrice && maxPrice < minPrice) {
+        reject('maximum year cannot be less than the minimum year');
+      }
+      let result = [];
+      for (let i = 0; i < data.length; i++) {
+        const car = data[i];
+        let insert: Boolean = true;
+        //search if the make criteria matches
+        if (make && !make.toLowerCase().includes(car.make.toLowerCase())) {
+          insert = false;
+          continue;
+        }
+        //search if the model criteria matches
+        if (model && !model.toLowerCase().includes(car.model.toLowerCase())) {
+          insert = false;
+          continue;
+        }
+        //check if the year is less than the min year
+        if (minYear && car.year < minYear) {
+          insert = false;
+          continue;
+        }
+        //check if the year is greater than max year
+        if (maxYear && car.year > maxYear) {
+          insert = false;
+          continue;
+        }
+
+        //check if the price is lesser than min if present
+        if (minPrice && car.price < minPrice) {
+          insert = false;
+          continue;
+        }
+        //check if the price is greater than max if present
+        if (maxPrice && car.price > maxPrice) {
+          insert = false;
+          continue;
+        }
+        if (insert) {
+          result.push(car);
+        }
+      }
+      resolve(result);
+    });
+  }
+}

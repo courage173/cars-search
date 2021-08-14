@@ -1,11 +1,6 @@
 import { Response } from 'express';
 import { environment } from '../config';
-import {
-  InternalErrorResponse,
-  NotFoundResponse,
-  BadRequestResponse,
-  ForbiddenResponse,
-} from './Response';
+import { InternalErrorResponse, NotFoundResponse, BadRequestResponse } from './Response';
 
 enum ErrorType {
   INTERNAL = 'InternalError',
@@ -13,7 +8,6 @@ enum ErrorType {
   NO_ENTRY = 'NoEntryError',
   NO_DATA = 'NoDataError',
   BAD_REQUEST = 'BadRequestError',
-  FORBIDDEN = 'ForbiddenError',
 }
 
 export abstract class ApiError extends Error {
@@ -31,8 +25,6 @@ export abstract class ApiError extends Error {
         return new NotFoundResponse(err.message).send(res);
       case ErrorType.BAD_REQUEST:
         return new BadRequestResponse(err.message).send(res);
-      case ErrorType.FORBIDDEN:
-        return new ForbiddenResponse(err.message).send(res);
       default: {
         let message = err.message;
         // Do not send failure message in production as it may send sensitive data
@@ -58,18 +50,6 @@ export class BadRequestError extends ApiError {
 export class NotFoundError extends ApiError {
   constructor(message = 'Not Found') {
     super(ErrorType.NOT_FOUND, message);
-  }
-}
-
-export class ForbiddenError extends ApiError {
-  constructor(message = 'Permission denied') {
-    super(ErrorType.FORBIDDEN, message);
-  }
-}
-
-export class NoEntryError extends ApiError {
-  constructor(message = "Entry don't exists") {
-    super(ErrorType.NO_ENTRY, message);
   }
 }
 
