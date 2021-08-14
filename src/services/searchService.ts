@@ -25,7 +25,7 @@ export default class SearchService {
         reject('maximum year cannot be less than the minimum year');
       }
       if (maxPrice && minPrice && maxPrice < minPrice) {
-        reject('maximum year cannot be less than the minimum year');
+        reject('maximum price cannot be less than the minimum year');
       }
       let result = [];
       for (let i = 0; i < data.length; i++) {
