@@ -17,7 +17,7 @@ describe('search test', () => {
   it('should throw error when the maximum price is less than the minimum price', async () => {
     const response = await request.get(`${endpoint}?minPrice=18999&maxPrice=12999`);
     expect(response.status).toBe(400);
-    expect(response.body.message).toEqual('maximum price cannot be less than the minimum year');
+    expect(response.body.message).toEqual('maximum price cannot be less than the minimum price');
   });
   it('should search when just make is supplied', async () => {
     const response = await request.get(`${endpoint}?make=honda`);

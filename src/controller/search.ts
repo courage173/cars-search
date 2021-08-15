@@ -10,7 +10,10 @@ const router = express.Router();
 router.get(
   '/search',
   AsyncHandler(async (req: Request, res: Response) => {
+    //build and sanitize the search query so as to remove invalid criterias if passed in
+    //and also convert minYear,maxYear,minPrice and maxPrice to numbers
     const query = buildQuery(req.query);
+    //check if the query criteria is empty
     if (Object.keys(query).length < 1) {
       throw new BadRequestError('no search criteria added');
     }
@@ -24,5 +27,3 @@ router.get(
 );
 
 export default router;
-
-//make=honda,toyota&model=civic,camry&maxPrice=6995&minPrice=87678
