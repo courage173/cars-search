@@ -6,7 +6,7 @@ This project provides a search api to search through a list of cars based on sea
 
 
 * Run using Docker Compose [**Recommended Method**] 
-    * Make a copy of **.env.example** file to **.env**.
+    * Make a copy of **env.example** file to **.env**.
     * Execute `docker-compose up` in terminal from the repo directory.
     * You will be able to access the api from http://localhost:3003/v1/api
     * *If having any issue* then make sure 3003 port is not occupied else provide a different port in **.env** file.
