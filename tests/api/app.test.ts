@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import app from '../../src/app';
 
 describe('server test', () => {
-  const endpoint = '/api';
+  const endpoint = '/v1/api';
   const request = supertest(app);
   it('test server is up and running', async () => {
     const response = await request.get(endpoint);

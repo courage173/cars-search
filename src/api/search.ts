@@ -8,7 +8,7 @@ import AsyncHandler from '../utils/AsyncHandler';
 const router = express.Router();
 
 router.get(
-  '/search',
+  '/',
   AsyncHandler(async (req: Request, res: Response) => {
     //build and sanitize the search query so as to remove invalid criterias if passed in
     //and also convert minYear,maxYear,minPrice and maxPrice to numbers

@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import app from '../../src/app';
 
 describe('search test', () => {
-  const endpoint = '/api/v1/search';
+  const endpoint = '/v1/api/search';
   const request = supertest(app);
   it('should return an error when search query is empty', async () => {
     const response = await request.get(endpoint);
