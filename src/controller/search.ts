@@ -10,8 +10,11 @@ const router = express.Router();
 router.get(
   '/search',
   AsyncHandler(async (req: Request, res: Response) => {
+    const query = buildQuery(req.query);
+    if (Object.keys(query).length < 1) {
+      throw new BadRequestError('no search criteria added');
+    }
     try {
-      const query = buildQuery(req.query);
       const cars = await SearchService.search(query);
       new SuccessResponse('success', cars).send(res);
     } catch (error) {
@@ -21,3 +24,5 @@ router.get(
 );
 
 export default router;
+
+//make=honda,toyota&model=civic,camry&maxPrice=6995&minPrice=87678

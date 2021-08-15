@@ -1,17 +1,8 @@
 import db from '../database/listing.json';
-import { ListingResponse } from '../types/listing';
-
-export interface SearchCriteria {
-  make?: string;
-  model?: string;
-  minYear?: number;
-  maxYear?: number;
-  minPrice?: number;
-  maxPrice?: number;
-}
+import { ISearchResponse, ISearchCriteria } from '../types/search';
 
 export default class SearchService {
-  public static search(query: SearchCriteria): Promise<ListingResponse[] | []> {
+  public static search(query: ISearchCriteria): Promise<ISearchResponse[] | []> {
     const data = db.cars;
     return new Promise((resolve, reject) => {
       const make = query.make;

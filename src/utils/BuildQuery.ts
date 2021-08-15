@@ -1,7 +1,7 @@
-import { SearchCriteria } from '../services/searchService';
+import { ISearchCriteria } from '../types/search';
 
-export default function buildQuery(query: any): SearchCriteria {
-  const data: SearchCriteria = {};
+export default function buildQuery(query: any): ISearchCriteria {
+  const data: ISearchCriteria = {};
   if (query.model) {
     data.model = query.model;
   }
