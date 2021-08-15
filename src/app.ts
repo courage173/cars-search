@@ -3,7 +3,8 @@ import Logger from './utils/Logger';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { environment } from './config';
-import searchRoute from './controller/search';
+import searchRoute from './api/search';
+import docs from './api/swagger';
 import { NotFoundError, ApiError, InternalError } from './utils/ErrorHandler';
 
 process.on('uncaughtException', (e) => {
@@ -18,6 +19,9 @@ app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 
 //search api
 app.use(['/api/v1', '/api/'], searchRoute);
+
+//swagger documentation api
+app.use(['/api/v1/docs', '/api/docs'], docs);
 
 // Middleware Error Handler
 app.get(['/', '/api'], function (req: Request, res: Response) {
