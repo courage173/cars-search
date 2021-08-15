@@ -16,9 +16,9 @@ export default class SearchService {
         reject('maximum year cannot be less than the minimum year');
       }
       if (maxPrice && minPrice && maxPrice < minPrice) {
-        reject('maximum price cannot be less than the minimum year');
+        reject('maximum price cannot be less than the minimum price');
       }
-      let result = [];
+      const result = [];
       for (let i = 0; i < data.length; i++) {
         const car = data[i];
         let insert: Boolean = true;
