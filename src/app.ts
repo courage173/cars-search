@@ -3,8 +3,7 @@ import Logger from './utils/Logger';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { environment } from './config';
-import searchRoute from './api/search';
-import docs from './api/swagger';
+import routes from './api';
 import { NotFoundError, ApiError, InternalError } from './utils/ErrorHandler';
 
 process.on('uncaughtException', (e) => {
@@ -17,14 +16,10 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true, parameterLimit: 50000 }));
 app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 
-//search api
-app.use(['/api/v1', '/api/'], searchRoute);
+//routes api
+app.use(['/v1/api/', '/api/'], routes);
 
-//swagger documentation api
-app.use(['/api/v1/docs', '/api/docs'], docs);
-
-// Middleware Error Handler
-app.get(['/', '/api'], function (req: Request, res: Response) {
+app.get(['/', '/v1/api', '/api'], function (req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
   res.send(
     JSON.stringify({
@@ -35,7 +30,7 @@ app.get(['/', '/api'], function (req: Request, res: Response) {
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => next(new NotFoundError()));
+app.use((req: Request, res: Response, next: NextFunction) => next(new NotFoundError()));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ApiError) {

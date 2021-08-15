@@ -1,5 +1,5 @@
 paths:
-  /api/v1/search:
+  /v1/api/search:
     get:
       tags:
         - Search

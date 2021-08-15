@@ -54,7 +54,6 @@ export class NotFoundResponse extends ApiResponse {
 
 export class BadRequestResponse extends ApiResponse {
   constructor(message = 'Bad Parameters') {
-    console.log(message);
     super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
   }
 }
