@@ -3,7 +3,7 @@ import Logger from './utils/Logger';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { environment } from './config';
-import searchRoute from './api/search';
+import searchRoute from './controller/search';
 import { NotFoundError, ApiError, InternalError } from './utils/ErrorHandler';
 
 process.on('uncaughtException', (e) => {
@@ -20,7 +20,6 @@ app.use(cors({ origin: '*', optionsSuccessStatus: 200 }));
 app.use(['/api/v1', '/api/'], searchRoute);
 
 // Middleware Error Handler
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.get(['/', '/api'], function (req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
   res.send(

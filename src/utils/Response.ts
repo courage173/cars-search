@@ -34,8 +34,6 @@ abstract class ApiResponse {
   private static sanitize<T extends ApiResponse>(response: T): T {
     const clone: T = {} as T;
     Object.assign(clone, response);
-    // @ts-ignore
-    delete clone.status;
     for (const i in clone) if (typeof clone[i] === 'undefined') delete clone[i];
     return clone;
   }
@@ -54,14 +52,9 @@ export class NotFoundResponse extends ApiResponse {
   }
 }
 
-export class ForbiddenResponse extends ApiResponse {
-  constructor(message = 'Forbidden') {
-    super(StatusCode.FAILURE, ResponseStatus.FORBIDDEN, message);
-  }
-}
-
 export class BadRequestResponse extends ApiResponse {
   constructor(message = 'Bad Parameters') {
+    console.log(message);
     super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
   }
 }

@@ -1,14 +1,13 @@
 import supertest from 'supertest';
 import app from '../../src/app';
-import db from '../../src/database/listing.json';
 
 describe('search test', () => {
   const endpoint = '/api/v1/search';
   const request = supertest(app);
-  it('should fetch all data when no search query is passed', async () => {
+  it('should return an error when search query is empty', async () => {
     const response = await request.get(endpoint);
-    expect(response.status).toBe(200);
-    expect(response.body.data.length).toEqual(db.cars.length);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual('no search criteria added');
   });
   it('should throw error when the maximum year is less than the minimum year', async () => {
     const response = await request.get(`${endpoint}?minYear=2001&maxYear=2000`);
@@ -57,7 +56,6 @@ describe('search test', () => {
       `${endpoint}?model=civic,camry&make=honda,toyota&minYear=2012&maxYear=2018`,
     );
     expect(response.status).toBe(200);
-    console.log(response.body.data.length);
     expect(response.body.data.length).toEqual(3);
   });
   it('should search based on model,make and minimum year and maximum year and price', async () => {
