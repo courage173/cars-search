@@ -7,10 +7,11 @@ This project provides a search api to search through a list of cars based on sea
 
 * Run using Docker Compose [**Recommended Method**] 
     * Make a copy of **env.example** file to **.env**.
-    * Execute `docker-compose up` in terminal from the repo directory.
+    * Execute `docker-compose up` in terminal from the root directory.
     * You will be able to access the api from http://localhost:3003/v1/api
     * *If having any issue* then make sure 3003 port is not occupied else provide a different port in **.env** file.
     * visit http://localhost:3003/v1/api/docs to view a live documentation with swagger ui
+    * visit http://localhost:3003/v1/api/search to access the search api
  * Run The Tests
     * From the root of the project executes in terminal `npm install`.
     * To run the tests execute `npm test`.
@@ -21,6 +22,7 @@ This project provides a search api to search through a list of cars based on sea
         * Execute `npm start` from the terminal to build and run the project.
     * You will be able to access the API from http://localhost:3003/v1/api
     * visit http://localhost:3003/v1/api/docs to view a live documentation with swagger ui
+    * visit http://localhost:3003/v1/api/search to access the search api
 
     
  
