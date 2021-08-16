@@ -1,12 +1,6 @@
 import { Response } from 'express';
 
 // Helper code for the API consumer to understand the error and handle is accordingly
-enum StatusCode {
-  SUCCESS = '10000',
-  FAILURE = '10001',
-  RETRY = '10002',
-}
-
 enum ResponseStatus {
   SUCCESS = 200,
   BAD_REQUEST = 400,
@@ -17,14 +11,10 @@ enum ResponseStatus {
 }
 
 abstract class ApiResponse {
-  constructor(
-    protected statusCode: StatusCode,
-    protected status: ResponseStatus,
-    protected message: string,
-  ) {}
+  constructor(protected statusCode: ResponseStatus, protected message: string) {}
 
   protected prepare<T extends ApiResponse>(res: Response, response: T): Response {
-    return res.status(this.status).json(ApiResponse.sanitize(response));
+    return res.status(this.statusCode).json(ApiResponse.sanitize(response));
   }
 
   public send(res: Response): Response {
@@ -34,6 +24,7 @@ abstract class ApiResponse {
   private static sanitize<T extends ApiResponse>(response: T): T {
     const clone: T = {} as T;
     Object.assign(clone, response);
+    //remove keys that are undefined
     for (const i in clone) if (typeof clone[i] === 'undefined') delete clone[i];
     return clone;
   }
@@ -43,7 +34,7 @@ export class NotFoundResponse extends ApiResponse {
   private url: string | undefined;
 
   constructor(message = 'Not Found') {
-    super(StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message);
+    super(ResponseStatus.NOT_FOUND, message);
   }
 
   send(res: Response): Response {
@@ -54,31 +45,31 @@ export class NotFoundResponse extends ApiResponse {
 
 export class BadRequestResponse extends ApiResponse {
   constructor(message = 'Bad Parameters') {
-    super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
+    super(ResponseStatus.BAD_REQUEST, message);
   }
 }
 
 export class InternalErrorResponse extends ApiResponse {
   constructor(message = 'Internal Error') {
-    super(StatusCode.FAILURE, ResponseStatus.INTERNAL_ERROR, message);
+    super(ResponseStatus.INTERNAL_ERROR, message);
   }
 }
 
 export class SuccessMsgResponse extends ApiResponse {
   constructor(message: string) {
-    super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+    super(ResponseStatus.SUCCESS, message);
   }
 }
 
 export class FailureMsgResponse extends ApiResponse {
   constructor(message: string) {
-    super(StatusCode.FAILURE, ResponseStatus.SUCCESS, message);
+    super(ResponseStatus.SUCCESS, message);
   }
 }
 
 export class SuccessResponse<T> extends ApiResponse {
   constructor(message: string, private data: T) {
-    super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+    super(ResponseStatus.SUCCESS, message);
   }
 
   send(res: Response): Response {
