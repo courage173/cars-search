@@ -18,6 +18,7 @@ router.get(
       throw new BadRequestError('no search criteria added');
     }
     try {
+      //call the search service
       const cars = await SearchService.search(query);
       new SuccessResponse('success', cars).send(res);
     } catch (error) {
